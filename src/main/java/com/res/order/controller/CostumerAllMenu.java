@@ -8,20 +8,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.res.order.dao.Menu;
+import com.res.order.db.dbConnector;
+
+import jakarta.servlet.http.HttpSession;
+
 @Controller
+
 public class CostumerAllMenu {
+	@Autowired
+	HttpSession httpSession;
+
 	@GetMapping("/CostumerAllMenu")
 	public String adminAllMenu(Model model) {
 		try {
+			int tableId =  (int) httpSession.getAttribute("TableID");
+			Connection conn = dbConnector.getConnection();
+			PreparedStatement pstm = conn
+					.prepareStatement("select costumer_id from customer_info where check_status = 0 and table_id =?");
+			pstm.setInt(1, tableId);
+			System.out.println(pstm.toString());
+			ResultSet rs = pstm.executeQuery();
+			if(rs.next()) {
+				
+				httpSession.setAttribute("costId", rs.getInt("costumer_id"));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://mysql-3b8e1b6b-personal-2024.a.aivencloud.com:25679/res_order_app?sslmode=require",
-					"avnadmin", "AVNS_rD4L1U0rBrjUFaLLs29");
+			Connection conn = dbConnector.getConnection();
 
 			PreparedStatement pstm = conn.prepareStatement("select * from all_menu");
 
@@ -43,7 +66,7 @@ public class CostumerAllMenu {
 				menuObj.setMenuCategory(rs.getInt("menu_category"));
 				menuObj.setMenuDetails(rs.getString("menu_details"));
 				menuObj.setStatusOfStock(rs.getInt("status_of_stock"));
-				
+
 				rs.getBytes("menu_photo");
 				menuObj.setPhotoBase64String(Base64.encodeBase64String(rs.getBytes("menu_photo")));
 
@@ -86,6 +109,5 @@ public class CostumerAllMenu {
 
 		return "Costumer/costumerMenu";
 	}
-
 
 }

@@ -108,15 +108,16 @@
 
 						<div th:if="*{statusOfStock == 1}">
 							<div class="input-group">
-								<button class="btn btn-outline-secondary" type="button" id="minusBtn1"
+								<button class="btn btn-warning" type="button" id="minusBtn1"
 									th:onclick="decreaseOne([[*{menuId}]])">-</button>
 								<input type="text" class="form-control" value="0" th:id="'quantity'+ *{menuId}"
 									readonly>
-								<button class="btn btn-outline-secondary" type="button" id="plusBtn1"
+								<button class="btn btn-warning" type="button" id="plusBtn1"
 									th:onclick="increaseOne([[*{menuId}]])">+</button>
 
 							</div>
-							<button class="form-control btn btn-success rounded-0" disabled th:id="'cartBtn'+ *{menuId}">
+							<button th:onclick="addCartAction([[${obj}]])" class="form-control btn btn-success rounded-0" disabled
+								th:id="'cartBtn'+ *{menuId}">
 								Add Cart
 								<i class="bi bi-cart-fill"></i>
 							</button>
@@ -179,10 +180,10 @@
 								th:text="*{menuName}"></span> </p>
 						<p style="margin: 0; padding: 0;" class="text-white text-center" th:text="*{menuPrice}"></p>
 						<div th:if="*{statusOfStock == 1}" class="input-group">
-							<button class="btn btn-outline-secondary" type="button" id="minusBtn1"
+							<button class="btn btn-warning" type="button" id="minusBtn1"
 								th:onclick="decreaseOne([[*{menuId}]])">-</button>
 							<input type="text" class="form-control" value="0" th:id="'quantity'+ *{menuId}" readonly>
-							<button class="btn btn-outline-secondary" type="button" id="plusBtn1"
+							<button class="btn btn-warning" type="button" id="plusBtn1"
 								th:onclick="increaseOne([[*{menuId}]])">+</button>
 						</div>
 						<div th:if="*{statusOfStock == 0}" class="bg-danger text-white">
@@ -330,6 +331,20 @@
 			</div>
 		</div>
 	</div>
+	<div class="bg-dark p-2 position-fixed w-100 bottom-0">
+		<a class="btn btn-danger" href="Payment">
+			<i class="bi bi-cash-coin fs-4"></i>
+			<span>お会計</span>
+		</a>
+		<a class="btn btn-success" href="Tocart">
+			<i class="bi bi-cart3 fs-4"></i>
+			<span>カート</span>
+		</a>
+		<a class="btn btn-warning" href="ToOrderHistory">
+			<i class="bi bi-list-columns-reverse fs-4"></i>
+			<span>注文歴</span>
+		</a>
+	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script>
 		function increaseOne(x) {
@@ -345,10 +360,10 @@
 			}
 
 			if (quantity.value == 0) {
-				document.getElementById("cartBtn"+x).disabled = true;
+				document.getElementById("cartBtn" + x).disabled = true;
 			}
 			else {
-				document.getElementById("cartBtn"+x).disabled = false;
+				document.getElementById("cartBtn" + x).disabled = false;
 			}
 		}
 
@@ -364,9 +379,52 @@
 
 			}
 			if (quantity.value == 0) {
-				document.getElementById("cartBtn"+x).disabled = true;
+				document.getElementById("cartBtn" + x).disabled = true;
 			}
 		}
+
+
+		function addCartAction(x) {
+			
+			let Quantity = document.getElementById('quantity' + (x.menuId));
+			
+			console.log(x);
+			let a = Quantity.value;
+			let b = x.menuName;
+			let c = x.menuPrice;
+			
+			
+			
+			
+			
+			
+			
+			// 1. new XMLHttpRequest オブジェクトを作成
+			let xhr = new XMLHttpRequest();
+
+			// 2. 設定: URL /article/.../load に対する GET-リクエスト
+			xhr.open('GET', `/restCart?count=${a}&itemname=${b}&itemprice=${c}`);
+
+			// 3. ネットワーク経由でリクエスト送信
+			xhr.send();
+
+			// 4. レスポンスを受け取った後に呼び出されます
+			xhr.onload = function () {
+				if (xhr.status == 200) { 
+					Quantity.value = 0;
+					document.getElementById("cartBtn" + (x.menuId) ).disabled = true;
+				} 
+			};
+
+
+
+
+
+			xhr.onerror = function () {
+				console.log("Request failed");
+			};
+		}
+
 	</script>
 </body>
 

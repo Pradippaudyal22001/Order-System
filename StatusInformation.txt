@@ -1,0 +1,13 @@
+ Account page :- (user role: 0 = Admin /  ShopStaff for stock and Billing/Checkout
+  & 0 = for costumer used by staff to order )
+  
+ All menu / admin all menu page :- (Status of Stock : 1 = Have Stock & 0 = Out of stock/ sold Out)
+ 
+ All table / table page :- ( Table status : 0 = Empty & 1 = occupied)
+ 
+ Costumer info page :- (Costumer check status : 0 = Eating / unfinish 
+ & 1 = click checkout button & 2 = finsh / Checked Out)
+ 
+  
+ Orders / Order page :- ( 0 = cart & 1 = ordered)
+   

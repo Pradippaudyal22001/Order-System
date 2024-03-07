@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.res.order.dao.Menu;
+import com.res.order.db.dbConnector;
 
 @Controller
 public class MenuController {
@@ -23,9 +24,7 @@ public class MenuController {
 	public String adminAllMenu(Model model) {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://mysql-3b8e1b6b-personal-2024.a.aivencloud.com:25679/res_order_app?sslmode=require",
-					"avnadmin", "AVNS_rD4L1U0rBrjUFaLLs29");
+			Connection conn = dbConnector.getConnection();
 
 			PreparedStatement pstm = conn.prepareStatement("select * from all_menu");
 
@@ -96,9 +95,7 @@ public class MenuController {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://mysql-3b8e1b6b-personal-2024.a.aivencloud.com:25679/res_order_app?sslmode=require",
-					"avnadmin", "AVNS_rD4L1U0rBrjUFaLLs29");
+			Connection conn = dbConnector.getConnection();
 
 			PreparedStatement pstm = conn.prepareStatement(
 					"insert into all_menu (menu_name,menu_price,menu_category,menu_details,menu_photo) values (?,?,?,?,?)");
@@ -121,9 +118,7 @@ public class MenuController {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://mysql-3b8e1b6b-personal-2024.a.aivencloud.com:25679/res_order_app?sslmode=require",
-					"avnadmin", "AVNS_rD4L1U0rBrjUFaLLs29");
+			Connection conn = dbConnector.getConnection();
 
 			PreparedStatement pstm = conn.prepareStatement("delete from all_menu where menu_id = ? ");
 			pstm.setInt(1, id);
@@ -141,9 +136,7 @@ public class MenuController {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://mysql-3b8e1b6b-personal-2024.a.aivencloud.com:25679/res_order_app?sslmode=require",
-					"avnadmin", "AVNS_rD4L1U0rBrjUFaLLs29");
+			Connection conn = dbConnector.getConnection();
 
 			PreparedStatement pstm = conn.prepareStatement("select * from all_menu where menu_id=? ");
 			pstm.setInt(1, id);
@@ -174,9 +167,7 @@ public class MenuController {
 		try {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://mysql-3b8e1b6b-personal-2024.a.aivencloud.com:25679/res_order_app?sslmode=require",
-					"avnadmin", "AVNS_rD4L1U0rBrjUFaLLs29");
+			Connection conn = dbConnector.getConnection();
 
 			PreparedStatement pstm = conn.prepareStatement(
 					"update all_menu set menu_name = ? ,menu_price = ? ,menu_category = ? , menu_details = ?,menu_photo=? where menu_id = ? ");
@@ -206,9 +197,7 @@ public class MenuController {
 		try {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://mysql-3b8e1b6b-personal-2024.a.aivencloud.com:25679/res_order_app?sslmode=require",
-					"avnadmin", "AVNS_rD4L1U0rBrjUFaLLs29");
+			Connection conn = dbConnector.getConnection();
 
 			PreparedStatement pstm = conn.prepareStatement("update all_menu set status_of_stock = 1 where menu_id= ? ");
 			pstm.setInt(1, id);
@@ -227,9 +216,7 @@ public class MenuController {
 		try {
 
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://mysql-3b8e1b6b-personal-2024.a.aivencloud.com:25679/res_order_app?sslmode=require",
-					"avnadmin", "AVNS_rD4L1U0rBrjUFaLLs29");
+			Connection conn = dbConnector.getConnection();
 
 			PreparedStatement pstm = conn.prepareStatement("update all_menu set status_of_stock = 0 where menu_id= ? ");
 			pstm.setInt(1, id);

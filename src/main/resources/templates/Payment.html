@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	
+
+	<title>店内注文App | お会計</title>
+</head>
+
+<body>
+	<div class="col-5 m-auto p-2 text-center">
+		<h2 class="mb-3">お会計<i class="bi bi-cart3"></i></h2>
+
+		<div class="mb-3">
+			<h3>
+				合計：
+				<span th:text="${total}">円</span>
+			</h3>
+		</div>
+
+		<div class="mb-3 d-flex gap-2">
+			<input class="form-control text-center" type="number" th:value="${total/totalPeople}" id="DividedCost" readonly>
+			<input class="form-control text-center" type="number" th:value="${totalPeople}" min="1" th:oninput="MyFun([[${total}]])" id="TotalPeopleId">
+		</div>
+
+		<div class="mb-3">
+			<a href="finishPayment" class="btn btn-success form-control">お会計を終了する</a>
+		</div>
+	</div>
+	
+	<script>
+		function MyFun(TotalPrice){
+			let totalP = document.getElementById("TotalPeopleId").value;
+			let subCost = TotalPrice/totalP;
+			let DividedCost = document.getElementById("DividedCost");
+			DividedCost.value= subCost;
+			
+		}
+	</script>
+</body>
+
+</html>
