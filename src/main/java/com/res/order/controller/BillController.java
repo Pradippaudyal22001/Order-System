@@ -96,7 +96,7 @@ public class BillController {
 			e.printStackTrace();
 		}
 
-		return "khaikeMachi";
+		return "KhaikeMachi";
 	}
 
 	@GetMapping("/ForReceipt")
